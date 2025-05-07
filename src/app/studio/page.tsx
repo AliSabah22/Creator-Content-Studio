@@ -6,11 +6,8 @@ import { Toaster, toast } from "react-hot-toast";
 
 const sidebarLinks = [
   { label: "Home", icon: "🏠", path: "/studio" },
-  { label: "Brand template", icon: "📦", path: "/studio/brand-template" },
   { label: "Asset library", icon: "🗂️", path: "/studio/asset-library" },
-  { label: "Calendar", icon: "🗓️", badge: "New", path: "/studio/calendar" },
   { label: "Analytics", icon: "📊", badge: "New", path: "/studio/analytics" },
-  { label: "Social accounts", icon: "🔗", path: "/studio/social-accounts" },
   { label: "Subscription", icon: "💳", path: "/studio/subscription" },
   { label: "Learning center", icon: "🎓", path: "/studio/learning-center" },
   { label: "Help center", icon: "❓", path: "/studio/help-center" },
@@ -157,9 +154,11 @@ export default function StudioPage() {
 
         {/* Main Area */}
         <main className="flex-1 p-8 overflow-y-auto">
-          {/* Upload Card with drag-and-drop, progress, validation, multi-file */}
+          {/* Upload Card */}
           <div
-            className={`max-w-2xl mx-auto bg-[#232323] rounded-2xl shadow-lg p-8 flex flex-col items-center mb-12 border-2 transition-all ${dragActive ? "border-green-400" : "border-transparent"}`}
+            className={`max-w-3xl mx-auto bg-gradient-to-br from-[#232323] to-[#1a1a1a] rounded-2xl shadow-2xl p-8 flex flex-col items-center mb-12 border-2 transition-all ${
+              dragActive ? "border-green-400 shadow-green-400/20" : "border-transparent"
+            }`}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
@@ -172,23 +171,23 @@ export default function StudioPage() {
               onChange={handleFileChange}
               multiple
             />
-            <div className="flex gap-2 mb-4">
+            <div className="flex gap-2 mb-6">
               <button
-                className="bg-[#181818] px-4 py-2 rounded-l-full text-gray-300 border border-gray-700"
+                className="bg-[#181818] px-5 py-2.5 rounded-l-full text-gray-300 border border-gray-700 hover:bg-white/5 transition-colors"
                 onClick={handleUploadClick}
                 disabled={uploading}
               >
                 Drop a video link
               </button>
               <button
-                className="bg-[#181818] px-4 py-2 text-gray-300 border-t border-b border-gray-700"
+                className="bg-[#181818] px-5 py-2.5 text-gray-300 border-t border-b border-gray-700 hover:bg-white/5 transition-colors"
                 onClick={handleUploadClick}
                 disabled={uploading}
               >
                 Upload
               </button>
               <button
-                className="bg-[#181818] px-4 py-2 rounded-r-full text-gray-300 border border-gray-700"
+                className="bg-[#181818] px-5 py-2.5 rounded-r-full text-gray-300 border border-gray-700 hover:bg-white/5 transition-colors"
                 onClick={handleUploadClick}
                 disabled={uploading}
               >
@@ -197,80 +196,63 @@ export default function StudioPage() {
             </div>
             <div className="w-full flex flex-col items-center">
               {dragActive && (
-                <div className="mb-2 text-green-400 animate-pulse">Drop your video here...</div>
+                <div className="mb-4 text-green-400 text-lg font-medium animate-pulse">Drop your video here...</div>
               )}
               {selectedFiles.length > 0 && (
-                <div className="mb-2 text-sm text-gray-300">
+                <div className="mb-4 text-sm text-gray-300">
                   Selected: {selectedFiles.map((file) => <span key={file.name} className="font-semibold mr-2">{file.name}</span>)}
                   {uploading && <span className="ml-2 animate-pulse text-green-400">Uploading...</span>}
                 </div>
               )}
               {uploading && (
-                <div className="w-full bg-gray-700 rounded-full h-2 mb-2">
+                <div className="w-full max-w-md bg-gray-700/50 rounded-full h-2.5 mb-4">
                   <div
-                    className="bg-green-500 h-2 rounded-full transition-all"
+                    className="bg-gradient-to-r from-green-400 to-green-600 h-2.5 rounded-full transition-all shadow-lg shadow-green-500/20"
                     style={{ width: `${progress}%` }}
                   ></div>
                 </div>
               )}
-              <button className="btn-primary w-full max-w-xs mb-2" disabled={uploading} onClick={handleUploadClick}>
+              <button 
+                className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-lg shadow-green-500/20 w-full max-w-md mb-4" 
+                disabled={uploading} 
+                onClick={handleUploadClick}
+              >
                 {uploading ? `Uploading... (${progress}%)` : "Get clips in 1 click"}
               </button>
-              <a href="#" className="text-gray-400 text-sm underline hover:text-white">Click here to try a sample project</a>
+              <a href="#" className="text-gray-400 text-sm hover:text-white transition-colors">Click here to try a sample project</a>
               {videoUrls.length > 0 && (
-                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-                  {videoUrls.map((url, idx) => (
-                    <video
-                      key={url}
-                      src={url}
-                      controls
-                      className="rounded-lg w-full border border-gray-700 shadow"
-                    />
-                  ))}
+                <div className="mt-8 w-full flex justify-center">
+                  <div className="grid grid-cols-1 gap-8 w-full max-w-4xl">
+                    {videoUrls.map((url, idx) => (
+                      <video
+                        key={url}
+                        src={url}
+                        controls
+                        className="rounded-xl w-full h-auto max-h-[600px] object-contain border border-gray-700/50 shadow-2xl"
+                      />
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Features Row */}
-          <div className="flex flex-wrap justify-center gap-8 mb-12">
-            {[
-              { label: "Long to shorts", icon: "✨" },
-              { label: "AI Captions", icon: "📝" },
-              { label: "Video editor", icon: "✂️", badge: "New" },
-              { label: "Enhance speech", icon: "🔊", badge: "New" },
-              { label: "AI Reframe", icon: "📐" },
-              { label: "AI B-Roll", icon: "🎬" },
-              { label: "AI hook", icon: "🎣" },
-            ].map((f) => (
-              <div key={f.label} className="flex flex-col items-center">
-                <div className="bg-[#181818] rounded-full w-16 h-16 flex items-center justify-center text-2xl mb-2 relative">
-                  {f.icon}
-                  {f.badge && (
-                    <span className="absolute top-2 right-2 text-xs bg-green-700 text-white rounded-full px-2 py-0.5">{f.badge}</span>
-                  )}
-                </div>
-                <span className="text-gray-300 text-sm">{f.label}</span>
-              </div>
-            ))}
-          </div>
-
           {/* Projects Grid */}
           <div>
-            <h2 className="text-xl font-bold mb-4">All projects</h2>
+            <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">All projects</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               {/* Placeholder project cards */}
-              <div className="bg-[#181818] rounded-xl p-4 flex flex-col">
-                <div className="bg-gray-700 rounded-lg h-32 mb-3"></div>
-                <span className="font-semibold mb-1">Demo Project</span>
-                <span className="text-xs text-gray-400 mb-2">29 days before expiring</span>
-                <span className="text-xs text-yellow-400">Free Plan • Demo</span>
+              <div className="bg-gradient-to-br from-[#232323] to-[#1a1a1a] rounded-xl p-6 flex flex-col shadow-xl hover:shadow-2xl transition-all">
+                <div className="bg-gray-700/50 rounded-lg h-40 mb-4"></div>
+                <span className="font-semibold text-lg mb-2">Demo Project</span>
+                <span className="text-sm text-gray-400 mb-3">29 days before expiring</span>
+                <span className="text-sm text-yellow-400 bg-yellow-400/10 px-3 py-1 rounded-full w-fit">Free Plan • Demo</span>
               </div>
-              <div className="bg-[#181818] rounded-xl p-4 flex flex-col">
-                <div className="bg-gray-700 rounded-lg h-32 mb-3"></div>
-                <span className="font-semibold mb-1">Sample Project</span>
-                <span className="text-xs text-gray-400 mb-2">29 days before expiring</span>
-                <span className="text-xs text-yellow-400">Free Plan • Demo</span>
+              <div className="bg-gradient-to-br from-[#232323] to-[#1a1a1a] rounded-xl p-6 flex flex-col shadow-xl hover:shadow-2xl transition-all">
+                <div className="bg-gray-700/50 rounded-lg h-40 mb-4"></div>
+                <span className="font-semibold text-lg mb-2">Sample Project</span>
+                <span className="text-sm text-gray-400 mb-3">29 days before expiring</span>
+                <span className="text-sm text-yellow-400 bg-yellow-400/10 px-3 py-1 rounded-full w-fit">Free Plan • Demo</span>
               </div>
             </div>
           </div>
